@@ -20,6 +20,36 @@ Display = pygame.display.set_mode((1000, 500), pygame.RESIZABLE)
 pygame.display.set_caption("Hexa Engine")
 
 # All engine featues
+class GUI:
+	class Label:
+		def __init__(self, Colors, Posx, Posy, Sizex, Sizey):
+			self.Posx = Posx
+			self.Posy = Posy
+			self.Sizex = Sizex
+			self.Sizey = Sizey
+			self.Colors = Colors
+
+		def draw(self):
+			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+
+	class Button:
+		def __init__(self, Colors, NewColor, Posx, Posy, Sizex, Sizey):
+			self.Posx = Posx
+			self.Posy = Posy
+			self.Sizex = Sizex
+			self.Sizey = Sizey
+			self.Colors = Colors
+			self.NewColor = NewColor
+
+		def draw(self):
+			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+			self.mouseX, self.mouseY = pygame.mouse.get_pos()
+			if self.mouseX >= self.Posx and self.mouseX <= self.Sizex and self.mouseY >= self.Posy and self.mouseY <= self.Sizey:
+				pygame.draw.rect(Display, self.NewColor, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+
+			else:
+				pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+
 class Entity:
 	class Quad:
 		def __init__(self, Colors, Posx, Posy, Sizex, Sizey):
@@ -30,7 +60,7 @@ class Entity:
 			self.Colors = Colors
 
 		def draw(self):
-			pygame.draw.rect(Graphics, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 
 		def move(self):
 			Keys = pygame.key.get_pressed()
@@ -48,6 +78,8 @@ class Entity:
 
 # Engine loop.
 Player = Entity.Quad((49, 149, 250), 530, 320, 50, 50)
+Options = GUI.Label((28, 28, 28), 0, 0, 200, 500)
+Change = GUI.Button((50, 50, 50), (70, 70, 70), 10, 10, 100, 50)
 while Loop:
 	clock.tick(60)
 	Display.fill((44, 44, 44))
@@ -61,6 +93,9 @@ while Loop:
 
 	Player.draw()
 	Player.move()
+
+	Options.draw()
+	Change.draw()
 
 	pygame.display.update()
 pygame.quit()
