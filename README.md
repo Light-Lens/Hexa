@@ -10,8 +10,7 @@ Start by cloning the repository with `git clone https://github.com/Light-Lens/He
 ## The Plan
 The plan for Hexa is to make a Powerful 2D Game Engine which can be used to make good games very easily.
 
-## Instructions
-### Requirments
+## Requirments
 You need to install the following on your machine.
 - Python
 - Pygame
