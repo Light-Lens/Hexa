@@ -67,7 +67,7 @@ class GUI:
 			self.Text = Text
 
 		def draw(self):
-			self.font = pygame.font.Font(pygame.font.get_default_font(), self.Font_size)
+			self.font = pygame.font.SysFont("arial", self.Font_size)
 			self.text = self.font.render(self.Text, True, self.Colors)
 			Graphics.blit(self.text, self.Font_Pos)
 
@@ -101,10 +101,13 @@ class Entity:
 # GameObjects
 Player = Entity.Quad((49, 149, 250), 530, 320, 50, 50)
 
-# GUI window.
+# Properties GUI window
 Properties = GUI.Label((28, 28, 28), 0, 0, 200, 500)
-Title = GUI.Text("Hello world!", (255, 255, 255), (15, 20), 15)
-Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 10, 10, 100, 35)
+Properties_Tab = GUI.Label((17, 17, 17), 0, 0, 200, 19)
+Properties_Tab_Title = GUI.Text("Properties", (255, 255, 255), (2, 0), 15)
+
+Title = GUI.Text("Change", (255, 255, 255), (50, 250), 15)
+Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 35, 247, 75, 25)
 while Loop:
 	clock.tick(60)
 	Display.fill((44, 44, 44))
@@ -122,8 +125,10 @@ while Loop:
 	Player.move()
 
 	Properties.draw()
-	Change.draw()
+	Properties_Tab.draw()
+	Properties_Tab_Title.draw()
 
+	Change.draw()
 	Title.draw()
 
 	pygame.display.update()
