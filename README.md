@@ -12,6 +12,6 @@ The plan for Hexa is to make a Powerful 2D Game Engine which can be used to make
 
 ## Requirments
 You need to install the following on your machine.
-- Python
+- Python (pygame)
 - Git-bash
 - Visual Studio Code (or any other IDE)
