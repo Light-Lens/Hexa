@@ -15,9 +15,13 @@ from pygame.locals import *
 pygame.init()
 
 Loop = True
+Logo = pygame.image.load("Logo.png")
 clock = pygame.time.Clock()
 Display = pygame.display.set_mode((1000, 500), pygame.RESIZABLE)
 pygame.display.set_caption("Hexa Engine")
+pygame.display.set_icon(Logo)
+
+print("Hexa game engine")
 
 # All engine featues
 class GUI:
@@ -33,22 +37,39 @@ class GUI:
 			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 
 	class Button:
-		def __init__(self, Colors, NewColor, Posx, Posy, Sizex, Sizey):
+		def __init__(self, Colors, NewColor, Pressed, Posx, Posy, Sizex, Sizey):
 			self.Posx = Posx
 			self.Posy = Posy
 			self.Sizex = Sizex
 			self.Sizey = Sizey
 			self.Colors = Colors
 			self.NewColor = NewColor
+			self.Pressed = Pressed
 
 		def draw(self):
 			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 			self.mouseX, self.mouseY = pygame.mouse.get_pos()
-			if self.mouseX >= self.Posx and self.mouseX <= self.Sizex and self.mouseY >= self.Posy and self.mouseY <= self.Sizey:
+			if self.Posx + self.Sizex > self.mouseX > self.Posx and self.Posy + self.Sizey > self.mouseY > self.Posy:
 				pygame.draw.rect(Display, self.NewColor, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+				if pygame.mouse.get_pressed()[0]:
+					pygame.draw.rect(Display, self.Pressed, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+					return 1
 
-			else:
-				pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+				else: return 0
+
+			else: pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+
+	class Text:
+		def __init__(self, Text, Colors, Font_Pos, Font_size):
+			self.Colors = Colors
+			self.Font_Pos = Font_Pos
+			self.Font_size = Font_size
+			self.Text = Text
+
+		def draw(self):
+			self.font = pygame.font.Font(pygame.font.get_default_font(), self.Font_size)
+			self.text = self.font.render(self.Text, True, self.Colors)
+			Graphics.blit(self.text, self.Font_Pos)
 
 class Entity:
 	class Quad:
@@ -77,9 +98,13 @@ class Entity:
 				self.Posy += 7
 
 # Engine loop.
+# GameObjects
 Player = Entity.Quad((49, 149, 250), 530, 320, 50, 50)
-Options = GUI.Label((28, 28, 28), 0, 0, 200, 500)
-Change = GUI.Button((50, 50, 50), (70, 70, 70), 10, 10, 100, 50)
+
+# GUI window.
+Properties = GUI.Label((28, 28, 28), 0, 0, 200, 500)
+Title = GUI.Text("Hello world!", (255, 255, 255), (15, 20), 15)
+Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 10, 10, 100, 35)
 while Loop:
 	clock.tick(60)
 	Display.fill((44, 44, 44))
@@ -89,13 +114,17 @@ while Loop:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 		if Keys[K_LALT] and Keys[K_F4] or Keys[K_LALT] and Keys[K_SPACE] and Keys[K_c]: sys.exit()
-		if event.type == pygame.VIDEORESIZE: Graphics = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+		if event.type == pygame.VIDEORESIZE:
+			Graphics = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+			Properties = GUI.Label((28, 28, 28), 0, 0, 200, event.h)
 
 	Player.draw()
 	Player.move()
 
-	Options.draw()
+	Properties.draw()
 	Change.draw()
+
+	Title.draw()
 
 	pygame.display.update()
 pygame.quit()
