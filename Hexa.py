@@ -55,8 +55,6 @@ class GUI:
 					pygame.draw.rect(Display, self.Pressed, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 					return 1
 
-				else: return 0
-
 			else: pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 
 	class Text:
@@ -73,14 +71,14 @@ class GUI:
 
 class Entity:
 	class Quad:
-		def __init__(self, Colors, Posx, Posy, Sizex, Sizey):
+		def __init__(self, Posx, Posy, Sizex, Sizey):
 			self.Posx = Posx
 			self.Posy = Posy
 			self.Sizex = Sizex
 			self.Sizey = Sizey
-			self.Colors = Colors
 
-		def draw(self):
+		def draw(self, Colors):
+			self.Colors = Colors
 			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 
 		def move(self):
@@ -98,8 +96,11 @@ class Entity:
 				self.Posy += 7
 
 # Engine loop.
+# Global variables
+Forever = False
+
 # GameObjects
-Player = Entity.Quad((49, 149, 250), 530, 320, 50, 50)
+Player = Entity.Quad(530, 320, 50, 50)
 
 # Properties GUI window
 Properties = GUI.Label((28, 28, 28), 0, 0, 200, 500)
@@ -121,15 +122,18 @@ while Loop:
 			Graphics = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
 			Properties = GUI.Label((28, 28, 28), 0, 0, 200, event.h)
 
-	Player.draw()
+	Player.draw((49, 149, 250))
 	Player.move()
 
 	Properties.draw()
 	Properties_Tab.draw()
 	Properties_Tab_Title.draw()
 
-	Change.draw()
+	IsPressed = Change.draw()
 	Title.draw()
+	if IsPressed == 1 or Forever == True:
+		Forever = True
+		Player.draw((250, 56, 49))
 
 	pygame.display.update()
 pygame.quit()
