@@ -18,10 +18,12 @@ Loop = True
 Logo = pygame.image.load("Logo.png")
 clock = pygame.time.Clock()
 Display = pygame.display.set_mode((1000, 500), pygame.RESIZABLE)
-pygame.display.set_caption("Hexa Engine")
+pygame.display.set_caption("Hexagon editor")
 pygame.display.set_icon(Logo)
 
-print("Hexa game engine")
+os.system('title Hexa engine')
+def HEXA_ENGINE_LOG(message):
+	print(message)
 
 # All engine featues
 class GUI:
@@ -55,6 +57,8 @@ class GUI:
 					pygame.draw.rect(Display, self.Pressed, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 					return 1
 
+				else: return 0
+
 			else: pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 
 	class Text:
@@ -65,9 +69,9 @@ class GUI:
 			self.Text = Text
 
 		def draw(self):
-			self.font = pygame.font.SysFont("arial", self.Font_size)
+			self.font = pygame.font.SysFont("calibri", self.Font_size)
 			self.text = self.font.render(self.Text, True, self.Colors)
-			Graphics.blit(self.text, self.Font_Pos)
+			Display.blit(self.text, self.Font_Pos)
 
 class Entity:
 	class Quad:
@@ -96,44 +100,73 @@ class Entity:
 				self.Posy += 7
 
 # Engine loop.
+HEXA_ENGINE_LOG("Hexa engine")
+
 # Global variables
 Forever = False
+IsPressed = 0
 
 # GameObjects
 Player = Entity.Quad(530, 320, 50, 50)
 
-# Properties GUI window
-Properties = GUI.Label((28, 28, 28), 0, 0, 200, 500)
-Properties_Tab = GUI.Label((17, 17, 17), 0, 0, 200, 19)
-Properties_Tab_Title = GUI.Text("Properties", (255, 255, 255), (2, 0), 15)
+# Menubar GUI window
+Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
+Menubar_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
+Menubar_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
 
-Title = GUI.Text("Change", (255, 255, 255), (50, 250), 15)
+# Properties GUI window
+Properties = GUI.Label((28, 28, 28), 0, 21, 200, 500)
+Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, 500)
+
+Properties_Tab = GUI.Label((25, 25, 25), 0, 21, 200, 21)
+Properties_Tab_Border = GUI.Label((20, 20, 20), 0, 42, 200, 2)
+Properties_Tab_Title = GUI.Text("Properties", (255, 255, 255), (2, 22), 15)
+
+# Change GUI button
 Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 35, 247, 75, 25)
+Change_Text = GUI.Text("Change", (255, 255, 255), (50, 251), 15)
+Change_Border = GUI.Label((20, 20, 20), 35, 272, 75, 2)
 while Loop:
 	clock.tick(60)
 	Display.fill((44, 44, 44))
 
 	Keys = pygame.key.get_pressed()
-
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 		if Keys[K_LALT] and Keys[K_F4] or Keys[K_LALT] and Keys[K_SPACE] and Keys[K_c]: sys.exit()
 		if event.type == pygame.VIDEORESIZE:
-			Graphics = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-			Properties = GUI.Label((28, 28, 28), 0, 0, 200, event.h)
+			Display = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+			Menubar = GUI.Label((25, 25, 25), 0, 0, event.w, 21)
 
-	Player.draw((49, 149, 250))
+			Properties = GUI.Label((28, 28, 28), 0, 0, 200, event.h)
+			Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, event.h)
+
+	if IsPressed == 1 or Forever == True:
+		if IsPressed == 1:
+			HEXA_ENGINE_LOG("Changed the color of Object \"Player\" to (250, 56, 49)")
+
+		Forever = True
+		Player.draw((250, 56, 49))
+
+	elif IsPressed == 0 or Forever == False:
+		Player.draw((49, 149, 250))
 	Player.move()
 
 	Properties.draw()
 	Properties_Tab.draw()
+	Properties_Border.draw()
 	Properties_Tab_Title.draw()
+	Properties_Tab_Border.draw()
 
 	IsPressed = Change.draw()
-	Title.draw()
-	if IsPressed == 1 or Forever == True:
-		Forever = True
-		Player.draw((250, 56, 49))
+	Change_Text.draw()
+	Change_Border.draw()
+
+	Menubar.draw()
+	IsMenuPressed = Menubar_Button.draw()
+	Menubar_Text.draw()
+	if IsMenuPressed == 1:
+		HEXA_ENGINE_LOG("File option has been chosen")
 
 	pygame.display.update()
 pygame.quit()
