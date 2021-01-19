@@ -17,7 +17,7 @@ pygame.init()
 Loop = True
 Logo = pygame.image.load("Logo.png")
 clock = pygame.time.Clock()
-Display = pygame.display.set_mode((1000, 500), pygame.RESIZABLE)
+Display = pygame.display.set_mode((1000, 575), pygame.RESIZABLE)
 pygame.display.set_caption("Hexagon editor")
 pygame.display.set_icon(Logo)
 
@@ -115,8 +115,8 @@ Menubar_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
 Menubar_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
 
 # Properties GUI window
-Properties = GUI.Label((28, 28, 28), 0, 21, 200, 500)
-Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, 500)
+Properties = GUI.Label((28, 28, 28), 0, 21, 200, 575)
+Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, 575)
 
 Properties_Tab = GUI.Label((25, 25, 25), 0, 21, 200, 21)
 Properties_Tab_Border = GUI.Label((20, 20, 20), 0, 42, 200, 2)
