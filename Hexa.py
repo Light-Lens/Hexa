@@ -55,6 +55,7 @@ class GUI:
 				pygame.draw.rect(Display, self.NewColor, (self.Posx, self.Posy, self.Sizex, self.Sizey))
 				if pygame.mouse.get_pressed()[0]:
 					pygame.draw.rect(Display, self.Pressed, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+					pygame.time.delay(100)
 					return 1
 
 				else: return 0
@@ -116,16 +117,21 @@ Menubar_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 
 
 # Properties GUI window
 Properties = GUI.Label((28, 28, 28), 0, 21, 200, 575)
-Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, 575)
+Properties_Border = GUI.Label((18, 18, 18), 198, 42, 2, 575)
 
 Properties_Tab = GUI.Label((25, 25, 25), 0, 21, 200, 21)
-Properties_Tab_Border = GUI.Label((20, 20, 20), 0, 42, 200, 2)
-Properties_Tab_Title = GUI.Text("Properties", (255, 255, 255), (2, 22), 15)
+Properties_Tab_Border = GUI.Label((18, 18, 18), 0, 42, 200, 2)
+Properties_Tab_Hilighter = GUI.Label((20, 20, 20), 0, 21, 125, 21)
+Properties_Tab_Title = GUI.Text("Properties", (255, 255, 255), (2, 24), 15)
+
+Add_Feature_Button = GUI.Button((28, 28, 28), (50, 50, 50), (40, 40, 40), 52, 47, 85, 25)
+Add_Feature_Title = GUI.Text("Add Feature", (255, 255, 255), (57, 51), 15)
+Add_Feature_Border = GUI.Label((18, 18, 18), 20, 75, 160, 2)
 
 # Change GUI button
 Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 35, 247, 75, 25)
 Change_Text = GUI.Text("Change", (255, 255, 255), (50, 251), 15)
-Change_Border = GUI.Label((20, 20, 20), 35, 272, 75, 2)
+Change_Border = GUI.Label((18, 18, 18), 35, 272, 75, 2)
 while Loop:
 	clock.tick(60)
 	Display.fill((44, 44, 44))
@@ -155,18 +161,21 @@ while Loop:
 	Properties.draw()
 	Properties_Tab.draw()
 	Properties_Border.draw()
+	Properties_Tab_Hilighter.draw()
 	Properties_Tab_Title.draw()
 	Properties_Tab_Border.draw()
+
+	Add_Feature_Button.draw()
+	Add_Feature_Title.draw()
+	Add_Feature_Border.draw()
 
 	IsPressed = Change.draw()
 	Change_Text.draw()
 	Change_Border.draw()
 
 	Menubar.draw()
-	IsMenuPressed = Menubar_Button.draw()
+	Menubar_Button.draw()
 	Menubar_Text.draw()
-	if IsMenuPressed == 1:
-		HEXA_ENGINE_LOG("File option has been chosen")
 
 	pygame.display.update()
 pygame.quit()
