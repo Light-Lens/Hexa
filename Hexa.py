@@ -14,6 +14,7 @@ from pygame.locals import *
 # Initializing Hexa engine
 pygame.init()
 
+Zoom = 0
 Loop = True
 Logo = pygame.image.load("Logo.png")
 clock = pygame.time.Clock()
@@ -84,7 +85,7 @@ class Entity:
 
 		def draw(self, Colors):
 			self.Colors = Colors
-			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+			pygame.draw.rect(Display, self.Colors, (self.Posx + Zoom, self.Posy  + Zoom, self.Sizex  + Zoom, self.Sizey  + Zoom))
 
 		def move(self):
 			Keys = pygame.key.get_pressed()
@@ -140,6 +141,14 @@ while Loop:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 		if Keys[K_LALT] and Keys[K_F4] or Keys[K_LALT] and Keys[K_SPACE] and Keys[K_c]: sys.exit()
+		if pygame.mouse.get_pressed()[1]:
+			mouseX, mouseY = pygame.mouse.get_pos()
+			print(f"X: {mouseX}, Y: {mouseY}")
+
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			if event.button == 4: Zoom += 1.01
+			if event.button == 5: Zoom -= 0.99
+
 		if event.type == pygame.VIDEORESIZE:
 			Display = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
 			Menubar = GUI.Label((25, 25, 25), 0, 0, event.w, 21)
