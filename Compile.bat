@@ -9,7 +9,6 @@ cls
 echo Done.
 move dist\Hexa.exe ..\Hexa.exe
 
-cd src
 del dist
 del build
 del __pycache__
