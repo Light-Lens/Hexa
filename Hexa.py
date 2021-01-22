@@ -1,6 +1,9 @@
 # Hexa programming language
 # Modules are imported that will be used in Hexa programming language.
+from colorama import Fore, Back, Style
+from colorama import init
 import random
+import time
 import math
 import sys
 import os
@@ -12,6 +15,7 @@ import pygame
 from pygame.locals import *
 
 # Initializing Hexa engine
+init(autoreset = True)
 pygame.init()
 
 Zoom = 0
@@ -25,6 +29,13 @@ pygame.display.set_icon(Logo)
 os.system('title Hexa engine')
 def HEXA_ENGINE_LOG(message):
 	print(message)
+
+def HEXA_ENGINE_ERROR_LOG(message):
+	print(Fore.RED + message)
+
+def HEXA_ENGINE_LOG_CLEAR():
+	HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
+	os.system('cls')
 
 # All engine featues
 class GUI:
@@ -102,19 +113,49 @@ class Entity:
 				self.Posy += 7
 
 # Engine loop.
-HEXA_ENGINE_LOG("Hexa engine")
+HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
 
 # Global variables
-Forever = False
-IsPressed = 0
+Forever = {
+'Change' : False,
+'Help' : False,
+'Help_ABOUT' : False,
+}
+
+IsPressed = {
+'Change' : 0,
+'Help' : 0,
+'Help_ABOUT' : 0,
+'Help_ABOUT_Button' : 0
+}
 
 # GameObjects
 Player = Entity.Quad(530, 320, 50, 50)
 
 # Menubar GUI window
 Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
-Menubar_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
-Menubar_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
+Filemenu_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
+Filemenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
+
+Editmenu_Text = GUI.Text("Edit", (255, 255, 255), (28, 3), 12)
+Editmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 25, 0, 25, 15)
+
+Viewmenu_Text = GUI.Text("View", (255, 255, 255), (53, 3), 12)
+Viewmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 50, 0, 30, 15)
+
+Projectmenu_Text = GUI.Text("Project", (255, 255, 255), (83, 3), 12)
+Projectmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 80, 0, 40, 15)
+
+Helpmenu_Text = GUI.Text("Help", (255, 255, 255), (123, 3), 12)
+Helpmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 120, 0, 28, 15)
+Help_Submenu = GUI.Label((50, 50, 50), 120, 15, 100, 21)
+Help_Submenu_Button_ABOUT = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 122, 17, 96, 17)
+Help_Submenu_Text_ABOUT = GUI.Text("About Hexa", (255, 255, 255), (141, 19), 11)
+Help_ABOUT_Label = GUI.Label((40, 40, 40), 400, 200, 310, 200)
+Help_ABOUT_Title = GUI.Text("About Hexa", (255, 255, 255), (512, 210), 17)
+Help_ABOUT_Info = GUI.Text("Hexa is Powerful, Open-source 2D Game Engine.", (255, 255, 255), (412, 240), 15)
+Help_ABOUT_Button = GUI.Button((25, 25, 25), (50, 50, 50), (10, 10, 10), 530, 372, 40, 25)
+Help_ABOUT_Button_Text = GUI.Text("Ok", (255, 255, 255), (540, 377), 17)
 
 # Properties GUI window
 Properties = GUI.Label((28, 28, 28), 0, 21, 200, 575)
@@ -122,17 +163,19 @@ Properties_Border = GUI.Label((18, 18, 18), 198, 42, 2, 575)
 
 Properties_Tab = GUI.Label((25, 25, 25), 0, 21, 200, 21)
 Properties_Tab_Border = GUI.Label((18, 18, 18), 0, 42, 200, 2)
-Properties_Tab_Hilighter = GUI.Label((20, 20, 20), 0, 21, 125, 21)
+Properties_Tab_Hilighter = GUI.Label((20, 20, 20), 0, 21, 175, 21)
 Properties_Tab_Title = GUI.Text("Properties", (255, 255, 255), (2, 24), 15)
+Properties_Tab_ObjectName = GUI.Text("(Player)", (255, 255, 255), (125, 24), 15)
 
 Add_Feature_Button = GUI.Button((28, 28, 28), (50, 50, 50), (40, 40, 40), 52, 47, 85, 25)
 Add_Feature_Title = GUI.Text("Add Feature", (255, 255, 255), (57, 51), 15)
 Add_Feature_Border = GUI.Label((18, 18, 18), 20, 75, 160, 2)
 
 # Change GUI button
-Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 35, 247, 75, 25)
-Change_Text = GUI.Text("Change", (255, 255, 255), (50, 251), 15)
-Change_Border = GUI.Label((18, 18, 18), 35, 272, 75, 2)
+Change = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 57, 100, 75, 25)
+Change_Text = GUI.Text("Change", (255, 255, 255), (70, 104), 15)
+Change_Border = GUI.Label((18, 18, 18), 57, 125, 75, 2)
+Change_Left_Border = GUI.Label((18, 18, 18), 57, 100, 2, 25)
 while Loop:
 	clock.tick(60)
 	Display.fill((44, 44, 44))
@@ -143,11 +186,11 @@ while Loop:
 		if Keys[K_LALT] and Keys[K_F4] or Keys[K_LALT] and Keys[K_SPACE] and Keys[K_c]: sys.exit()
 		if pygame.mouse.get_pressed()[1]:
 			mouseX, mouseY = pygame.mouse.get_pos()
-			print(f"X: {mouseX}, Y: {mouseY}")
+			Player = Entity.Quad(mouseX + 53, mouseY + 32, 50, 50)
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			if event.button == 4: Zoom += 1.01
-			if event.button == 5: Zoom -= 0.99
+			if event.button == 4: Zoom += 2.01
+			if event.button == 5: Zoom += -1.99
 
 		if event.type == pygame.VIDEORESIZE:
 			Display = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
@@ -156,14 +199,23 @@ while Loop:
 			Properties = GUI.Label((28, 28, 28), 0, 0, 200, event.h)
 			Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, event.h)
 
-	if IsPressed == 1 or Forever == True:
+			Console_Tab = GUI.Label((25, 25, 25), 0, (event.h - 25), event.w, 25)
+
+	if IsPressed['Change'] == 1 and Forever['Change'] == True:
+		if IsPressed['Change'] == 1:
+			HEXA_ENGINE_LOG("Changed the color of Object \"Player\" to (49, 149, 250)")
+
+		Forever['Change'] = False
+		Player.draw((49, 149, 250))
+
+	elif IsPressed['Change'] == 1 or Forever['Change'] == True:
 		if IsPressed == 1:
 			HEXA_ENGINE_LOG("Changed the color of Object \"Player\" to (250, 56, 49)")
 
-		Forever = True
+		Forever['Change'] = True
 		Player.draw((250, 56, 49))
 
-	elif IsPressed == 0 or Forever == False:
+	elif IsPressed['Change'] == 0 or Forever['Change'] == False:
 		Player.draw((49, 149, 250))
 	Player.move()
 
@@ -173,18 +225,51 @@ while Loop:
 	Properties_Tab_Hilighter.draw()
 	Properties_Tab_Title.draw()
 	Properties_Tab_Border.draw()
+	Properties_Tab_ObjectName.draw()
 
 	Add_Feature_Button.draw()
 	Add_Feature_Title.draw()
 	Add_Feature_Border.draw()
 
-	IsPressed = Change.draw()
+	IsPressed['Change'] = Change.draw()
 	Change_Text.draw()
 	Change_Border.draw()
+	Change_Left_Border.draw()
 
 	Menubar.draw()
-	Menubar_Button.draw()
-	Menubar_Text.draw()
+	Filemenu_Button.draw()
+	Filemenu_Text.draw()
+
+	Editmenu_Button.draw()
+	Editmenu_Text.draw()
+
+	Viewmenu_Button.draw()
+	Viewmenu_Text.draw()
+
+	Projectmenu_Button.draw()
+	Projectmenu_Text.draw()
+
+	IsPressed['Help'] = Helpmenu_Button.draw()
+	Helpmenu_Text.draw()
+	if IsPressed['Help'] == 1 and Forever['Help'] == True:
+		Forever['Help'] = False
+
+	elif IsPressed['Help'] == 1 or Forever['Help'] == True:
+		Forever['Help'] = True
+		Help_Submenu.draw()
+		IsPressed['Help_ABOUT'] = Help_Submenu_Button_ABOUT.draw()
+		Help_Submenu_Text_ABOUT.draw()
+
+	if IsPressed['Help_ABOUT'] == 1 or Forever['Help_ABOUT'] == True:
+		Forever['Help_ABOUT'] = True
+		Help_ABOUT_Label.draw()
+		IsPressed['Help_ABOUT_Button'] = Help_ABOUT_Button.draw()
+		Help_ABOUT_Button_Text.draw()
+		Help_ABOUT_Title.draw()
+		Help_ABOUT_Info.draw()
+		if IsPressed['Help_ABOUT_Button'] == 1:
+			Forever['Help_ABOUT'] = False
+			Forever['Help'] = False
 
 	pygame.display.update()
 pygame.quit()
