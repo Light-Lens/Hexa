@@ -1,5 +1,5 @@
-# Hexa programming language
-# Modules are imported that will be used in Hexa programming language.
+# Hexa game engine
+# Modules are imported that will be used in Hexa game engine.
 from colorama import Fore, Back, Style
 from colorama import init
 import random
@@ -177,7 +177,7 @@ Change_Text = GUI.Text("Change", (255, 255, 255), (70, 104), 15)
 Change_Border = GUI.Label((18, 18, 18), 57, 125, 75, 2)
 Change_Left_Border = GUI.Label((18, 18, 18), 57, 100, 2, 25)
 while Loop:
-	clock.tick(60)
+	clock.tick(120)
 	Display.fill((44, 44, 44))
 
 	Keys = pygame.key.get_pressed()
