@@ -112,6 +112,11 @@ class Entity:
 			if Keys[K_DOWN]:
 				self.Posy += 7
 
+class Components:
+	class Physics:
+		def __init__(self):
+			pass
+
 # Engine loop.
 HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
 
