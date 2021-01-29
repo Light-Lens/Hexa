@@ -2,6 +2,7 @@
 # Modules are imported that will be used in Hexa game engine.
 from colorama import Fore, Back, Style
 from colorama import init
+import platform
 import random
 import time
 import math
@@ -18,14 +19,19 @@ from pygame.locals import *
 init(autoreset = True)
 pygame.init()
 
+# Global variables
 Zoom = 0
 Loop = True
-Logo = pygame.image.load("Logo.png")
 clock = pygame.time.Clock()
+System_details = platform.uname()
+Logo = pygame.image.load("Logo.png")
+
+# Setting up window
 Display = pygame.display.set_mode((1000, 575), pygame.RESIZABLE)
 pygame.display.set_caption("Hexagon editor")
 pygame.display.set_icon(Logo)
 
+# Setting up Terminal
 os.system('title Hexa engine')
 def HEXA_ENGINE_LOG(message):
 	print(message)
@@ -34,8 +40,11 @@ def HEXA_ENGINE_ERROR_LOG(message):
 	print(Fore.RED + message)
 
 def HEXA_ENGINE_LOG_CLEAR():
-	HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
 	os.system('cls')
+	HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
+	HEXA_ENGINE_LOG(Fore.GREEN + f"Host Name: {System_details.node}")
+	HEXA_ENGINE_LOG(Fore.GREEN + f"System: {System_details.system} {System_details.release}")
+	HEXA_ENGINE_LOG(Fore.GREEN + f"Processor: {System_details.processor}")
 
 # All engine featues
 class GUI:
@@ -119,16 +128,21 @@ class Components:
 
 # Engine loop.
 HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
+HEXA_ENGINE_LOG(Fore.GREEN + f"Host Name: {System_details.node}")
+HEXA_ENGINE_LOG(Fore.GREEN + f"System: {System_details.system} {System_details.release}")
+HEXA_ENGINE_LOG(Fore.GREEN + f"Processor: {System_details.processor}")
 
 # Global variables
 Forever = {
 'Change' : False,
+'File' : False,
 'Help' : False,
 'Help_ABOUT' : False,
 }
 
 IsPressed = {
 'Change' : 0,
+'File' : 0,
 'Help' : 0,
 'Help_ABOUT' : 0,
 'Help_ABOUT_Button' : 0
@@ -141,6 +155,15 @@ Player = Entity.Quad(530, 320, 50, 50)
 Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
 Filemenu_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
 Filemenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
+File_Submenu = GUI.Label((50, 50, 50), 0, 15, 100, 72)
+File_Submenu_Button_NEW = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 17, 96, 17)
+File_Submenu_Text_NEW = GUI.Text("New", (255, 255, 255), (37, 19), 11)
+File_Submenu_Button_OPEN = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 34, 96, 17)
+File_Submenu_Text_OPEN = GUI.Text("Open", (255, 255, 255), (36, 36), 11)
+File_Submenu_Button_SAVE = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 51, 96, 17)
+File_Submenu_Text_SAVE = GUI.Text("Save", (255, 255, 255), (37, 53), 11)
+File_Submenu_Button_EXIT = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 68, 96, 17)
+File_Submenu_Text_EXIT = GUI.Text("Exit", (255, 255, 255), (37, 70), 11)
 
 Editmenu_Text = GUI.Text("Edit", (255, 255, 255), (28, 3), 12)
 Editmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 25, 0, 25, 15)
@@ -242,8 +265,23 @@ while Loop:
 	Change_Left_Border.draw()
 
 	Menubar.draw()
-	Filemenu_Button.draw()
+	IsPressed['File'] = Filemenu_Button.draw()
 	Filemenu_Text.draw()
+
+	if IsPressed['File'] == 1 and Forever['File'] == True:
+		Forever['File'] = False
+
+	elif IsPressed['File'] == 1 or Forever['File'] == True:
+		Forever['File'] = True
+		File_Submenu.draw()
+		File_Submenu_Button_NEW.draw()
+		File_Submenu_Text_NEW.draw()
+		File_Submenu_Button_OPEN.draw()
+		File_Submenu_Text_OPEN.draw()
+		File_Submenu_Button_SAVE.draw()
+		File_Submenu_Text_SAVE.draw()
+		File_Submenu_Button_EXIT.draw()
+		File_Submenu_Text_EXIT.draw()
 
 	Editmenu_Button.draw()
 	Editmenu_Text.draw()
