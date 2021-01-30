@@ -143,6 +143,7 @@ Forever = {
 IsPressed = {
 'Change' : 0,
 'File' : 0,
+'File_EXIT' : 0,
 'Help' : 0,
 'Help_ABOUT' : 0,
 'Help_ABOUT_Button' : 0
@@ -155,15 +156,17 @@ Player = Entity.Quad(530, 320, 50, 50)
 Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
 Filemenu_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
 Filemenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
-File_Submenu = GUI.Label((50, 50, 50), 0, 15, 100, 72)
+File_Submenu = GUI.Label((50, 50, 50), 0, 15, 100, 78)
 File_Submenu_Button_NEW = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 17, 96, 17)
 File_Submenu_Text_NEW = GUI.Text("New", (255, 255, 255), (37, 19), 11)
 File_Submenu_Button_OPEN = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 34, 96, 17)
 File_Submenu_Text_OPEN = GUI.Text("Open", (255, 255, 255), (36, 36), 11)
 File_Submenu_Button_SAVE = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 51, 96, 17)
 File_Submenu_Text_SAVE = GUI.Text("Save", (255, 255, 255), (37, 53), 11)
-File_Submenu_Button_EXIT = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 68, 96, 17)
-File_Submenu_Text_EXIT = GUI.Text("Exit", (255, 255, 255), (37, 70), 11)
+
+File_Submenu_Seperator_EXIT = GUI.Label((30, 30, 30), 5, 70, 90, 2)
+File_Submenu_Button_EXIT = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 74, 96, 17)
+File_Submenu_Text_EXIT = GUI.Text("Exit", (255, 255, 255), (38, 76), 11)
 
 Editmenu_Text = GUI.Text("Edit", (255, 255, 255), (28, 3), 12)
 Editmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 25, 0, 25, 15)
@@ -205,7 +208,7 @@ Change_Text = GUI.Text("Change", (255, 255, 255), (70, 104), 15)
 Change_Border = GUI.Label((18, 18, 18), 57, 125, 75, 2)
 Change_Left_Border = GUI.Label((18, 18, 18), 57, 100, 2, 25)
 while Loop:
-	clock.tick(120)
+	clock.tick(60)
 	Display.fill((44, 44, 44))
 
 	Keys = pygame.key.get_pressed()
@@ -237,7 +240,7 @@ while Loop:
 		Player.draw((49, 149, 250))
 
 	elif IsPressed['Change'] == 1 or Forever['Change'] == True:
-		if IsPressed == 1:
+		if IsPressed['Change'] == 1:
 			HEXA_ENGINE_LOG("Changed the color of Object \"Player\" to (250, 56, 49)")
 
 		Forever['Change'] = True
@@ -270,9 +273,11 @@ while Loop:
 
 	if IsPressed['File'] == 1 and Forever['File'] == True:
 		Forever['File'] = False
+		Forever['Help'] = False
 
 	elif IsPressed['File'] == 1 or Forever['File'] == True:
 		Forever['File'] = True
+		Forever['Help'] = False
 		File_Submenu.draw()
 		File_Submenu_Button_NEW.draw()
 		File_Submenu_Text_NEW.draw()
@@ -280,8 +285,10 @@ while Loop:
 		File_Submenu_Text_OPEN.draw()
 		File_Submenu_Button_SAVE.draw()
 		File_Submenu_Text_SAVE.draw()
-		File_Submenu_Button_EXIT.draw()
+		File_Submenu_Seperator_EXIT.draw()
+		IsPressed['File_EXIT'] = File_Submenu_Button_EXIT.draw()
 		File_Submenu_Text_EXIT.draw()
+		if IsPressed['File_EXIT']: sys.exit()
 
 	Editmenu_Button.draw()
 	Editmenu_Text.draw()
@@ -296,9 +303,11 @@ while Loop:
 	Helpmenu_Text.draw()
 	if IsPressed['Help'] == 1 and Forever['Help'] == True:
 		Forever['Help'] = False
+		Forever['File'] = False
 
 	elif IsPressed['Help'] == 1 or Forever['Help'] == True:
 		Forever['Help'] = True
+		Forever['File'] = False
 		Help_Submenu.draw()
 		IsPressed['Help_ABOUT'] = Help_Submenu_Button_ABOUT.draw()
 		Help_Submenu_Text_ABOUT.draw()
