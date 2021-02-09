@@ -42,7 +42,7 @@ def HEXA_ENGINE_ERROR_LOG(message):
 def HEXA_ENGINE_LOG_CLEAR():
 	os.system('cls')
 	HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
-	HEXA_ENGINE_LOG(Fore.GREEN + f"Host Name: {System_details.node}")
+	HEXA_ENGINE_LOG(Fore.GREEN + f"Host: {System_details.node}")
 	HEXA_ENGINE_LOG(Fore.GREEN + f"System: {System_details.system} {System_details.release}")
 	HEXA_ENGINE_LOG(Fore.GREEN + f"Processor: {System_details.processor}")
 
@@ -121,16 +121,58 @@ class Entity:
 			if Keys[K_DOWN]:
 				self.Posy += 7
 
-class Components:
-	class Physics:
-		def __init__(self):
-			pass
+	class Circle:
+		def __init__(self, Posx, Posy, Radius):
+			self.Posx = Posx
+			self.Posy = Posy
+			self.Radius = Radius
+
+		def draw(self, Colors):
+			self.Colors = Colors
+			pygame.draw.circle(Display, self.Colors, (self.Posx + Zoom, self.Posy + Zoom), (self.Radius + Zoom))
+
+		def move(self):
+			Keys = pygame.key.get_pressed()
+			if Keys[K_RIGHT]:
+				self.Posx += 7
+
+			if Keys[K_LEFT]:
+				self.Posx -= 7
+
+			if Keys[K_UP]:
+				self.Posy -= 7
+
+			if Keys[K_DOWN]:
+				self.Posy += 7
+
+	class Texture:
+		def __init__(self, Posx, Posy, Sizex, Sizey):
+			self.Posx = Posx
+			self.Posy = Posy
+			self.Sizex = Sizex
+			self.Sizey = Sizey
+
+		def draw(self, Texture):
+			self.Texture = pygame.image.load(Texture).convert_alpha()
+			Load_Texture = pygame.transform.scale(self.Texture, (self.Sizex + int(Zoom), self.Sizey + int(Zoom)))
+			Display.blit(Load_Texture, (self.Posx + Zoom, self.Posy + Zoom), None, pygame.BLEND_ADD)
+
+		def move(self):
+			Keys = pygame.key.get_pressed()
+			if Keys[K_RIGHT]:
+				self.Posx += 7
+
+			if Keys[K_LEFT]:
+				self.Posx -= 7
+
+			if Keys[K_UP]:
+				self.Posy -= 7
+
+			if Keys[K_DOWN]:
+				self.Posy += 7
 
 # Engine loop.
-HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
-HEXA_ENGINE_LOG(Fore.GREEN + f"Host Name: {System_details.node}")
-HEXA_ENGINE_LOG(Fore.GREEN + f"System: {System_details.system} {System_details.release}")
-HEXA_ENGINE_LOG(Fore.GREEN + f"Processor: {System_details.processor}")
+HEXA_ENGINE_LOG_CLEAR()
 
 # Global variables
 Forever = {
@@ -151,6 +193,7 @@ IsPressed = {
 
 # GameObjects
 Player = Entity.Quad(530, 320, 50, 50)
+Cir = Entity.Texture(530, 320, 10, 10)
 
 # Menubar GUI window
 Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
@@ -208,10 +251,8 @@ Change_Text = GUI.Text("Change", (255, 255, 255), (70, 104), 15)
 Change_Border = GUI.Label((18, 18, 18), 57, 125, 75, 2)
 Change_Left_Border = GUI.Label((18, 18, 18), 57, 100, 2, 25)
 while Loop:
-	clock.tick(180)
+	clock.tick(120)
 	Display.fill((44, 44, 44))
-	GUI.Text(str(int(clock.get_fps())), (255, 255, 255), (210, 30), 17).draw()
-
 	Keys = pygame.key.get_pressed()
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
@@ -246,6 +287,8 @@ while Loop:
 	elif IsPressed['Change'] == 0 or Forever['Change'] == False:
 		Player.draw((49, 149, 250))
 	Player.move()
+
+	Cir.draw("Logo.png")
 
 	Properties.draw()
 	Properties_Tab.draw()
@@ -320,5 +363,6 @@ while Loop:
 			Forever['Help_ABOUT'] = False
 			Forever['Help'] = False
 
+	GUI.Text(str(int(clock.get_fps())), (255, 255, 255), (210, 30), 17).draw()
 	pygame.display.update()
 pygame.quit()
