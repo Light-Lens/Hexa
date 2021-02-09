@@ -208,13 +208,13 @@ Change_Text = GUI.Text("Change", (255, 255, 255), (70, 104), 15)
 Change_Border = GUI.Label((18, 18, 18), 57, 125, 75, 2)
 Change_Left_Border = GUI.Label((18, 18, 18), 57, 100, 2, 25)
 while Loop:
-	clock.tick(60)
+	clock.tick(180)
 	Display.fill((44, 44, 44))
+	GUI.Text(str(int(clock.get_fps())), (255, 255, 255), (210, 30), 17).draw()
 
 	Keys = pygame.key.get_pressed()
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
-		if Keys[K_LALT] and Keys[K_F4] or Keys[K_LALT] and Keys[K_SPACE] and Keys[K_c]: sys.exit()
 		if pygame.mouse.get_pressed()[1]:
 			mouseX, mouseY = pygame.mouse.get_pos()
 			Player = Entity.Quad(mouseX + 53, mouseY + 32, 50, 50)
@@ -224,13 +224,10 @@ while Loop:
 			if event.button == 5: Zoom += -1.99
 
 		if event.type == pygame.VIDEORESIZE:
-			Display = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
 			Menubar = GUI.Label((25, 25, 25), 0, 0, event.w, 21)
 
 			Properties = GUI.Label((28, 28, 28), 0, 0, 200, event.h)
 			Properties_Border = GUI.Label((20, 20, 20), 198, 42, 2, event.h)
-
-			Console_Tab = GUI.Label((25, 25, 25), 0, (event.h - 25), event.w, 25)
 
 	if IsPressed['Change'] == 1 and Forever['Change'] == True:
 		if IsPressed['Change'] == 1:
