@@ -193,7 +193,6 @@ IsPressed = {
 
 # GameObjects
 Player = Entity.Quad(530, 320, 50, 50)
-Cir = Entity.Texture(530, 320, 10, 10)
 
 # Menubar GUI window
 Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
@@ -287,8 +286,6 @@ while Loop:
 	elif IsPressed['Change'] == 0 or Forever['Change'] == False:
 		Player.draw((49, 149, 250))
 	Player.move()
-
-	Cir.draw("Logo.png")
 
 	Properties.draw()
 	Properties_Tab.draw()
