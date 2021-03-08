@@ -70,18 +70,20 @@ class GUI:
 			self.Pressed = Pressed
 
 		def draw(self):
-			pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
-			self.mouseX, self.mouseY = pygame.mouse.get_pos()
-			if self.Posx + self.Sizex > self.mouseX > self.Posx and self.Posy + self.Sizey > self.mouseY > self.Posy:
-				pygame.draw.rect(Display, self.NewColor, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+			self.Hover_On_Rect = pygame.Rect(self.Posx, self.Posy, self.Sizex, self.Sizey)
+			self.Mouse_Pos = pygame.mouse.get_pos()
+			self.Hover_On = self.Hover_On_Rect.collidepoint(self.Mouse_Pos)
+
+			pygame.draw.rect(Display, self.Colors, self.Hover_On_Rect)
+			if self.Hover_On:
+				pygame.draw.rect(Display, self.NewColor, self.Hover_On_Rect)
 				if pygame.mouse.get_pressed()[0]:
-					pygame.draw.rect(Display, self.Pressed, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+					pygame.draw.rect(Display, self.Pressed, self.Hover_On_Rect)
 					pygame.time.delay(100)
 					return 1
 
 				else: return 0
-
-			else: pygame.draw.rect(Display, self.Colors, (self.Posx, self.Posy, self.Sizex, self.Sizey))
+			else: pygame.draw.rect(Display, self.Colors, self.Hover_On_Rect)
 
 	class Text:
 		def __init__(self, Text, Colors, Font_Pos, Font_size):
@@ -180,6 +182,7 @@ Forever = {
 'File' : False,
 'Help' : False,
 'Help_ABOUT' : False,
+'Project' : False
 }
 
 IsPressed = {
@@ -188,7 +191,8 @@ IsPressed = {
 'File_EXIT' : 0,
 'Help' : 0,
 'Help_ABOUT' : 0,
-'Help_ABOUT_Button' : 0
+'Help_ABOUT_Button' : 0,
+'Project' : 0
 }
 
 # GameObjects
@@ -199,15 +203,14 @@ Menubar = GUI.Label((25, 25, 25), 0, 0, 1000, 21)
 Filemenu_Text = GUI.Text("File", (255, 255, 255), (3, 3), 12)
 Filemenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 0, 0, 25, 15)
 File_Submenu = GUI.Label((50, 50, 50), 0, 15, 100, 78)
-File_Submenu_Button_NEW = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 17, 96, 17)
+File_Submenu_Button_NEW = GUI.Button((50, 50, 50), (0, 120, 250), (40, 40, 40), 2, 17, 96, 17)
 File_Submenu_Text_NEW = GUI.Text("New", (255, 255, 255), (37, 19), 11)
-File_Submenu_Button_OPEN = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 34, 96, 17)
+File_Submenu_Button_OPEN = GUI.Button((50, 50, 50), (0, 120, 250), (40, 40, 40), 2, 34, 96, 17)
 File_Submenu_Text_OPEN = GUI.Text("Open", (255, 255, 255), (36, 36), 11)
-File_Submenu_Button_SAVE = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 51, 96, 17)
+File_Submenu_Button_SAVE = GUI.Button((50, 50, 50), (0, 120, 250), (40, 40, 40), 2, 51, 96, 17)
 File_Submenu_Text_SAVE = GUI.Text("Save", (255, 255, 255), (37, 53), 11)
-
 File_Submenu_Seperator_EXIT = GUI.Label((30, 30, 30), 5, 70, 90, 2)
-File_Submenu_Button_EXIT = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 2, 74, 96, 17)
+File_Submenu_Button_EXIT = GUI.Button((50, 50, 50), (0, 120, 250), (40, 40, 40), 2, 74, 96, 17)
 File_Submenu_Text_EXIT = GUI.Text("Exit", (255, 255, 255), (38, 76), 11)
 
 Editmenu_Text = GUI.Text("Edit", (255, 255, 255), (28, 3), 12)
@@ -218,11 +221,14 @@ Viewmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 50, 0, 30
 
 Projectmenu_Text = GUI.Text("Project", (255, 255, 255), (83, 3), 12)
 Projectmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 80, 0, 40, 15)
+Projectmenu_Submenu = GUI.Label((50, 50, 50), 80, 15, 100, 21)
+Projectmenu_Button_RUN = GUI.Button((50, 50, 50), (0, 120, 250), (40, 40, 40), 82, 17, 96, 17)
+Projectmenu_Text_RUN = GUI.Text("Run Project", (255, 255, 255), (103, 19), 11)
 
 Helpmenu_Text = GUI.Text("Help", (255, 255, 255), (123, 3), 12)
 Helpmenu_Button = GUI.Button((25, 25, 25), (50, 50, 50), (40, 40, 40), 120, 0, 28, 15)
 Help_Submenu = GUI.Label((50, 50, 50), 120, 15, 100, 21)
-Help_Submenu_Button_ABOUT = GUI.Button((50, 50, 50), (70, 70, 70), (40, 40, 40), 122, 17, 96, 17)
+Help_Submenu_Button_ABOUT = GUI.Button((50, 50, 50), (0, 120, 250), (40, 40, 40), 122, 17, 96, 17)
 Help_Submenu_Text_ABOUT = GUI.Text("About Hexa", (255, 255, 255), (141, 19), 11)
 Help_ABOUT_Label = GUI.Label((40, 40, 40), 400, 200, 310, 200)
 Help_ABOUT_Title = GUI.Text("About Hexa", (255, 255, 255), (512, 210), 17)
@@ -311,10 +317,13 @@ while Loop:
 	if IsPressed['File'] == 1 and Forever['File'] == True:
 		Forever['File'] = False
 		Forever['Help'] = False
+		Forever['Project'] = False
 
 	elif IsPressed['File'] == 1 or Forever['File'] == True:
 		Forever['File'] = True
 		Forever['Help'] = False
+		Forever['Project'] = False
+
 		File_Submenu.draw()
 		File_Submenu_Button_NEW.draw()
 		File_Submenu_Text_NEW.draw()
@@ -333,18 +342,34 @@ while Loop:
 	Viewmenu_Button.draw()
 	Viewmenu_Text.draw()
 
-	Projectmenu_Button.draw()
+	IsPressed['Project'] = Projectmenu_Button.draw()
 	Projectmenu_Text.draw()
+	if IsPressed['Project'] == 1 and Forever['Project'] == True:
+		Forever['File'] = False
+		Forever['Help'] = False
+		Forever['Project'] = False
+
+	elif IsPressed['Project'] == 1 or Forever['Project'] == True:
+		Forever['File'] = False
+		Forever['Help'] = False
+		Forever['Project'] = True
+
+		Projectmenu_Submenu.draw()
+		Projectmenu_Button_RUN.draw()
+		Projectmenu_Text_RUN.draw()
 
 	IsPressed['Help'] = Helpmenu_Button.draw()
 	Helpmenu_Text.draw()
 	if IsPressed['Help'] == 1 and Forever['Help'] == True:
-		Forever['Help'] = False
 		Forever['File'] = False
+		Forever['Help'] = False
+		Forever['Project'] = False
 
 	elif IsPressed['Help'] == 1 or Forever['Help'] == True:
-		Forever['Help'] = True
 		Forever['File'] = False
+		Forever['Help'] = True
+		Forever['Project'] = False
+
 		Help_Submenu.draw()
 		IsPressed['Help_ABOUT'] = Help_Submenu_Button_ABOUT.draw()
 		Help_Submenu_Text_ABOUT.draw()
