@@ -1,6 +1,5 @@
 # Hexa
-Hexa is an open-source game engine made from scratch using only Python. <br />
-Hexa is an early-stage game engine which you can use to make good 2D games. Currently not much is implemented, however the developement for Hexa is going really well.
+Hexa is an open-source game engine made from scratch using only Python. It is an early-stage game engine which you can use to make good 2D games. Currently not much is implemented, however the developement for Hexa is going really well. Watch the video on YouTube: https://youtu.be/Le1afwfm3CY
 
 ## Getting Started
 Visual Studio Code is recommended (You can use your desired one), Hexa is not officially completed and tested yet, and as of now you cannot use it to make games, also Hexa is only focused to run on Windows Operating System.
