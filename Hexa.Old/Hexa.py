@@ -23,7 +23,8 @@ pygame.init()
 Zoom = 0
 Loop = True
 DeltaTime = 1
-clock = pygame.time.Clock()
+PrevFrameTime = time.time()
+Clock = pygame.time.Clock()
 System_details = platform.uname()
 Logo = pygame.image.load("Logo.png")
 
@@ -112,17 +113,10 @@ class Entity:
 
 		def move(self):
 			Keys = pygame.key.get_pressed()
-			if Keys[K_RIGHT]:
-				self.Posx += 7 * DeltaTime
-
-			if Keys[K_LEFT]:
-				self.Posx -= 7 * DeltaTime
-
-			if Keys[K_UP]:
-				self.Posy -= 7 * DeltaTime
-
-			if Keys[K_DOWN]:
-				self.Posy += 7 * DeltaTime
+			if Keys[K_RIGHT]: self.Posx += 700 * DeltaTime
+			if Keys[K_LEFT]: self.Posx -= 700 * DeltaTime
+			if Keys[K_UP]: self.Posy -= 700 * DeltaTime
+			if Keys[K_DOWN]: self.Posy += 700 * DeltaTime
 
 	class Circle:
 		def __init__(self, Posx, Posy, Radius):
@@ -136,17 +130,10 @@ class Entity:
 
 		def move(self):
 			Keys = pygame.key.get_pressed()
-			if Keys[K_RIGHT]:
-				self.Posx += 7 * DeltaTime
-
-			if Keys[K_LEFT]:
-				self.Posx -= 7 * DeltaTime
-
-			if Keys[K_UP]:
-				self.Posy -= 7 * DeltaTime
-
-			if Keys[K_DOWN]:
-				self.Posy += 7 * DeltaTime
+			if Keys[K_RIGHT]: self.Posx += 700 * DeltaTime
+			if Keys[K_LEFT]: self.Posx -= 700 * DeltaTime
+			if Keys[K_UP]: self.Posy -= 700 * DeltaTime
+			if Keys[K_DOWN]: self.Posy += 700 * DeltaTime
 
 	class Texture:
 		def __init__(self, Posx, Posy, Sizex, Sizey):
@@ -162,17 +149,10 @@ class Entity:
 
 		def move(self):
 			Keys = pygame.key.get_pressed()
-			if Keys[K_RIGHT]:
-				self.Posx += 7 * DeltaTime
-
-			if Keys[K_LEFT]:
-				self.Posx -= 7 * DeltaTime
-
-			if Keys[K_UP]:
-				self.Posy -= 7 * DeltaTime
-
-			if Keys[K_DOWN]:
-				self.Posy += 7 * DeltaTime
+			if Keys[K_RIGHT]: self.Posx += 700 * DeltaTime
+			if Keys[K_LEFT]: self.Posx -= 700 * DeltaTime
+			if Keys[K_UP]: self.Posy -= 700 * DeltaTime
+			if Keys[K_DOWN]: self.Posy += 700 * DeltaTime
 
 # Engine loop.
 HEXA_ENGINE_LOG(Fore.GREEN + "Hexa engine")
@@ -260,13 +240,20 @@ Change_Text = GUI.Text("Change", (255, 255, 255), (70, 104), 15)
 Change_Border = GUI.Label((18, 18, 18), 57, 125, 75, 2)
 Change_Left_Border = GUI.Label((18, 18, 18), 57, 100, 2, 25)
 while Loop:
-	Dt = clock.tick(72)
-	DeltaTime = 1 / float(Dt)
+	# Engine Clock
+	Clock.tick(120)
+	FPS = str(int(Clock.get_fps())) # Get the current FPS as a string.
 
+	# Setup Delta time.
+	CurrentFrameTime = time.time()
+	DeltaTime = (CurrentFrameTime - PrevFrameTime)
+	PrevFrameTime = CurrentFrameTime
+
+	# Setup the canvas.
 	Display.fill((44, 44, 44))
-	GUI.Text(str(int(clock.get_fps() * DeltaTime)), (255, 255, 255), (210, 30), 17).draw()
+	GUI.Text(FPS, (255, 255, 255), (210, 30), 18).draw()
 
-	Keys = pygame.key.get_pressed()
+	# Setup Event listener.
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
 		if pygame.mouse.get_pressed()[1]:
@@ -395,3 +382,4 @@ while Loop:
 
 	pygame.display.update()
 pygame.quit()
+sys.exit()
