@@ -10,6 +10,7 @@
                 "src\\*.cpp",
                 "-o",
                 "build\\main.exe",
+                "-Iinclude",
                 "-IC:/Program Files/mingw64/modules/SDL2/include",
                 "-LC:/Program Files/mingw64/modules/SDL2/lib",
                 "-lmingw32",
