@@ -3,12 +3,64 @@
 
 using namespace std;
 
+class Window
+{
+public:
+    int SCREEN_WIDTH = 1280;
+    int SCREEN_HEIGHT = 720;
+    string SCREEN_TITLE = "Hexa engine";
+
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+
+private:
+    SDL_Event event;
+    Uint32 lastTick = SDL_GetTicks();
+
+public:
+    Window()
+    {
+        SDL_Init(SDL_INIT_EVERYTHING);
+        window = SDL_CreateWindow(SCREEN_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+        renderer = SDL_CreateRenderer(window, -1, 0);
+    }
+
+    float DeltaTime()
+    {
+        // Calculate the time elapsed since the last frame
+        Uint32 currentTick = SDL_GetTicks();
+        float deltaTime = (currentTick - lastTick) / 1000.0f;
+        lastTick = currentTick;
+
+        return deltaTime;
+    }
+
+    void Event(bool& isrunning)
+    {
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                    isrunning = false;
+                    break;
+            }
+        }
+    }
+
+    ~Window()
+    {
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+    }
+};
+
 int main(int argv, char** args)
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
-
-    SDL_Window *window = SDL_CreateWindow("Hexa engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+    Window screen = Window();
+    auto renderer = screen.renderer;
+    auto window = screen.window;
 
     SDL_Rect square = { 1280/2 - 25, 720/2 - 25, 50, 50 };
     int xvel = 0, yvel = 0;
@@ -16,60 +68,30 @@ int main(int argv, char** args)
     bool isRunning = true;
     SDL_Event event;
 
-    Uint32 lastTick = SDL_GetTicks();
     while (isRunning)
     {
-        // Calculate the time elapsed since the last frame
-        Uint32 currentTick = SDL_GetTicks();
-        float deltaTime = (currentTick - lastTick) / 1000.0f;
-        lastTick = currentTick;
+        float deltaTime = screen.DeltaTime();
+        screen.Event(isRunning);
 
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_QUIT:
-                    isRunning = false;
-                    break;
+        const Uint8* state = SDL_GetKeyboardState(NULL);
+        if (state[SDL_SCANCODE_UP])
+            yvel = -1000;
 
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym)
-                    {
-                        case SDLK_UP:
-                            yvel = -1000;
-                            break;
+        else if (state[SDL_SCANCODE_DOWN])
+            yvel = 1000;
 
-                        case SDLK_DOWN:
-                            yvel = 1000;
-                            break;
+        else
+            yvel = 0;
 
-                        case SDLK_LEFT:
-                            xvel = -1000;
-                            break;
 
-                        case SDLK_RIGHT:
-                            xvel = 1000;
-                            break;
-                    }
-                    break;
+        if (state[SDL_SCANCODE_LEFT])
+            xvel = -1000;
 
-                case SDL_KEYUP:
-                    switch (event.key.keysym.sym)
-                    {
-                        case SDLK_UP:
-                        case SDLK_DOWN:
-                            yvel = 0;
-                            break;
+        else if (state[SDL_SCANCODE_RIGHT])
+            xvel = 1000;
 
-                        case SDLK_LEFT:
-                        case SDLK_RIGHT:
-                            xvel = 0;
-                            break;
-                    }
-                    break;
-            }
-        }
-
+        else
+            xvel = 0;
 
         // Update the square's position based on its velocity
         square.x += xvel * deltaTime;
@@ -91,11 +113,6 @@ int main(int argv, char** args)
         SDL_RenderPresent(renderer);
         SDL_Delay(10); // Wait for 10 milliseconds
     }
-
-    // Cleanup
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
 
     return 0;
 }
