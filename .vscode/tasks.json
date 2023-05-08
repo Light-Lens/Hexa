@@ -15,8 +15,8 @@
                 "-LC:/Program Files/mingw64/modules/SDL2/lib",
                 "-lmingw32",
                 "-lSDL2main",
-                "-lSDL2",
-                "-mwindows"
+                "-lSDL2"
+                // "-mwindows"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
