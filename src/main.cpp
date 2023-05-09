@@ -3,62 +3,113 @@
 
 using namespace std;
 
-class Window
+namespace Engine
 {
-public:
-    int SCREEN_WIDTH = 1280;
-    int SCREEN_HEIGHT = 720;
-    string SCREEN_TITLE = "Hexa engine";
-
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-
-private:
-    SDL_Event event;
-    Uint32 lastTick = SDL_GetTicks();
-
-public:
-    Window()
+    class Display
     {
-        SDL_Init(SDL_INIT_EVERYTHING);
-        window = SDL_CreateWindow(SCREEN_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-        renderer = SDL_CreateRenderer(window, -1, 0);
-    }
+    public:
+        int SCREEN_WIDTH = 1280;
+        int SCREEN_HEIGHT = 720;
+        string SCREEN_TITLE = "Hexa engine";
 
-    float DeltaTime()
-    {
-        // Calculate the time elapsed since the last frame
-        Uint32 currentTick = SDL_GetTicks();
-        float deltaTime = (currentTick - lastTick) / 1000.0f;
-        lastTick = currentTick;
+        SDL_Window *window;
+        SDL_Renderer *renderer;
 
-        return deltaTime;
-    }
+    private:
+        SDL_Event event;
 
-    void Event(bool& isrunning)
-    {
-        while (SDL_PollEvent(&event))
+    public:
+        Display()
         {
-            switch (event.type)
+            SDL_Init(SDL_INIT_EVERYTHING);
+            window = SDL_CreateWindow(SCREEN_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+            renderer = SDL_CreateRenderer(window, -1, 0);
+        }
+
+        void Event(bool& isrunning)
+        {
+            while (SDL_PollEvent(&event))
             {
-                case SDL_QUIT:
-                    isrunning = false;
-                    break;
+                switch (event.type)
+                {
+                    case SDL_QUIT:
+                        isrunning = false;
+                        break;
+                }
             }
         }
-    }
 
-    ~Window()
+        // Update the screen
+        void Update(Uint32 DelayTime=10)
+        {
+            SDL_RenderPresent(renderer);
+            SDL_Delay(DelayTime); // Wait for 'x' milliseconds
+        }
+
+        // Clear the screen
+        void Clear(Uint8 r=255, Uint8 g=255, Uint8 b=255, Uint8 a=1)
+        {
+            SDL_SetRenderDrawColor(renderer, r, g, b, a);
+            SDL_RenderClear(renderer);
+        }
+
+        ~Display()
+        {
+            SDL_DestroyRenderer(renderer);
+            SDL_DestroyWindow(window);
+            SDL_Quit();
+        }
+    };
+
+    class Time
     {
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-    }
-};
+    private:
+        Uint32 DeltaTimeLastTick = 0;
+        Uint32 FPSLastTick = 0;
+        int Frames = 0;
+
+    public:
+        Time()
+        {
+            Uint32 DeltaTimeLastTick = SDL_GetTicks();
+            Uint32 FPSLastTick = SDL_GetTicks();
+        }
+
+        float DeltaTime()
+        {
+            // Calculate the time elapsed since the last frame
+            Uint32 currentTick = SDL_GetTicks();
+            float deltaTime = (currentTick - DeltaTimeLastTick) / 1000.0f;
+            DeltaTimeLastTick = currentTick;
+
+            return deltaTime;
+        }
+
+        int GetFPS()
+        {
+            Uint32 currentTick = SDL_GetTicks();
+            Uint32 elapsedTimeMs = currentTick - FPSLastTick;
+            int FPS = 0;
+
+            Frames++;
+            if (elapsedTimeMs >= 10)
+            {
+                FPS = static_cast<int>(Frames) / (elapsedTimeMs / 1000.0f);
+
+                Frames = 0;
+                FPSLastTick = currentTick;
+            }
+
+            return FPS;
+        }
+    };
+}
 
 int main(int argv, char** args)
 {
-    Window screen = Window();
+    Engine::Display screen = Engine::Display();
+    Engine::Time time = Engine::Time();
+
     auto renderer = screen.renderer;
     auto window = screen.window;
 
@@ -70,7 +121,7 @@ int main(int argv, char** args)
 
     while (isRunning)
     {
-        float deltaTime = screen.DeltaTime();
+        float deltaTime = time.DeltaTime();
         screen.Event(isRunning);
 
         const Uint8* state = SDL_GetKeyboardState(NULL);
@@ -82,7 +133,6 @@ int main(int argv, char** args)
 
         else
             yvel = 0;
-
 
         if (state[SDL_SCANCODE_LEFT])
             xvel = -1000;
@@ -102,16 +152,14 @@ int main(int argv, char** args)
         square.y = max(min(square.y, 720 - 50), 0);
 
         // Clear the screen
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
-        SDL_RenderClear(renderer);
+        screen.Clear();
 
         // Draw the square
         SDL_SetRenderDrawColor(renderer, 43, 153, 255, 1);
         SDL_RenderFillRect(renderer, &square);
 
-        // Update the screen
-        SDL_RenderPresent(renderer);
-        SDL_Delay(10); // Wait for 10 milliseconds
+        cout << time.GetFPS() << endl;
+        screen.Update();
     }
 
     return 0;
