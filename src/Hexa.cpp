@@ -113,38 +113,24 @@ namespace Hexa
 
         class Input
         {
-        private:
-            enum PlayerInputKeyCode
-            {
-                UP,
-                DOWN,
-                LEFT,
-                RIGHT,
-                X,
-                Y
-            };
-
         public:
-            PlayerInputKeyCode PlayerInput()
+            static Uint8 PlayerInput()
             {
                 const Uint8* state = SDL_GetKeyboardState(NULL);
                 if (state[SDL_SCANCODE_UP] || state[SDL_SCANCODE_W])
-                    return UP;
+                    return 0;
 
                 else if (state[SDL_SCANCODE_DOWN] || state[SDL_SCANCODE_S])
-                    return DOWN;
+                    return 1;
 
-                else;
-                    return Y;
-
-                if (state[SDL_SCANCODE_LEFT] || state[SDL_SCANCODE_A])
-                    return LEFT;
+                else if (state[SDL_SCANCODE_LEFT] || state[SDL_SCANCODE_A])
+                    return 2;
 
                 else if (state[SDL_SCANCODE_RIGHT] || state[SDL_SCANCODE_D])
-                    return RIGHT;
+                    return 3;
 
                 else
-                    return X;
+                    return -1;
             }
         };
     }

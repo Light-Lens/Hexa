@@ -45,19 +45,8 @@ namespace Hexa
 
         class Input
         {
-        private:
-            enum PlayerInputKeyCode
-            {
-                UP,
-                DOWN,
-                LEFT,
-                RIGHT,
-                X,
-                Y
-            };
-
         public:
-            PlayerInputKeyCode PlayerInput();
+            static Uint8 PlayerInput();
         };
     }
 

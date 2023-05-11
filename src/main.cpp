@@ -18,6 +18,8 @@ int main(int argv, char** args)
         float deltaTime = time.DeltaTime();
         screen.WindowEvent(isRunning);
 
+        Uint8 key = Hexa::Engine::Input::PlayerInput();
+
         const Uint8* state = SDL_GetKeyboardState(NULL);
         if (state[SDL_SCANCODE_UP])
             yvel = -1000;
