@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -117,17 +118,16 @@ namespace Hexa
                 if (isKeydown(SDL_SCANCODE_UP) || isKeydown(SDL_SCANCODE_W))
                     return 0;
 
-                else if (isKeydown(SDL_SCANCODE_DOWN) || isKeydown(SDL_SCANCODE_S))
+                if (isKeydown(SDL_SCANCODE_DOWN) || isKeydown(SDL_SCANCODE_S))
                     return 1;
 
-                else if (isKeydown(SDL_SCANCODE_LEFT) || isKeydown(SDL_SCANCODE_A))
+                if (isKeydown(SDL_SCANCODE_LEFT) || isKeydown(SDL_SCANCODE_A))
                     return 2;
 
-                else if (isKeydown(SDL_SCANCODE_RIGHT) || isKeydown(SDL_SCANCODE_D))
+                if (isKeydown(SDL_SCANCODE_RIGHT) || isKeydown(SDL_SCANCODE_D))
                     return 3;
 
-                else
-                    return -1;
+                return -1;
             }
 
             static bool isKeydown(SDL_Scancode scancode)
@@ -203,6 +203,53 @@ namespace Hexa
                 SDL_RenderFillRect(renderer, &rect);
             }
         };
+
+        class Circle
+        {
+        private:
+            struct DimensionMatrix
+            {
+                int x, y;
+                int radius;
+            };
+
+            struct ColorMatrix
+            {
+                int r, g, b;
+                int a;
+            };
+
+        public:
+            int x, y;
+            int radius;
+            SDL_Color Color;
+
+        public:
+            Circle(DimensionMatrix dim_matrix, ColorMatrix color_matrix)
+            {
+                x = dim_matrix.x;
+                y = dim_matrix.y;
+                radius = dim_matrix.radius;
+
+                Color.r = color_matrix.r;
+                Color.g = color_matrix.g;
+                Color.b = color_matrix.b;
+                Color.a = color_matrix.a;
+            }
+
+            void draw()
+            {
+                SDL_SetRenderDrawColor(renderer, Color.r, Color.g, Color.b, Color.a);
+                for (int yloop = -radius; yloop <= radius; yloop++)
+                {
+                    for (int xloop = -radius; xloop <= radius; xloop++)
+                    {
+                        if (xloop*xloop + yloop*yloop <= radius*radius)
+                            SDL_RenderDrawPoint(renderer, x + xloop, y + yloop);
+                    }
+                }
+            }
+        };
     }
 }
 
@@ -212,6 +259,7 @@ int main(int argv, char** args)
     Hexa::Engine::Time time = Hexa::Engine::Time();
 
     Hexa::Entity::Square square = Hexa::Entity::Square({1280/2 - 25, 720/2 - 25, 50, 50}, {43, 153, 255, 1});
+    Hexa::Entity::Circle circle = Hexa::Entity::Circle({1280/2 - 25, 720/2 - 25, 10}, {255, 211, 89, 1});
     int xvel = 0, yvel = 0;
 
     bool isRunning = true;
@@ -249,7 +297,8 @@ int main(int argv, char** args)
         // Clear the screen
         screen.Clear();
 
-        // Draw the square
+        // Draw
+        circle.draw();
         square.draw();
 
         // Update the screen
