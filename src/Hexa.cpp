@@ -11,7 +11,7 @@ namespace Hexa
     SDL_Renderer *renderer = nullptr;
     namespace Engine
     {
-        Display::Display(string title = "Hexa engine", int width = 1280, int height = 720)
+        Display::Display(std::string title, int width, int height)
         {
             SCREEN_TITLE = title;
             SCREEN_WIDTH = width;
@@ -39,14 +39,14 @@ namespace Hexa
         }
 
         // Update the screen
-        void Display::Update(Uint32 DelayTime = 10)
+        void Display::Update(Uint32 DelayTime)
         {
             SDL_RenderPresent(renderer);
             SDL_Delay(DelayTime); // Wait for 'x' milliseconds
         }
 
         // Clear the screen
-        void Display::Clear(Uint8 r = 255, Uint8 g = 255, Uint8 b = 255, Uint8 a = 1)
+        void Display::Clear(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
         {
             SDL_SetRenderDrawColor(renderer, r, g, b, a);
             SDL_RenderClear(renderer);
