@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\Program Files\\mingw64\\modules\\SDL2\\include",
+                "C:\\Program Files\\mingw-w64\\modules\\SDL2\\include",
                 "include"
             ],
             "defines": [
@@ -12,7 +12,7 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\Program Files\\mingw64\\bin\\gcc.exe",
+            "compilerPath": "C:\\Program Files\\mingw-w64\\bin\\gcc.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64"

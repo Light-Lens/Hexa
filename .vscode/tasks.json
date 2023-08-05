@@ -4,15 +4,15 @@
         {
             "type": "shell",
             "label": "SDL2",
-            "command": "C:\\Program Files\\mingw64\\bin\\g++.exe",
+            "command": "C:\\Program Files\\mingw-w64\\bin\\g++.exe",
             "args": [
                 "-g",
                 "src\\*.cpp",
                 "-o",
                 "build\\main.exe",
                 "-Iinclude",
-                "-IC:/Program Files/mingw64/modules/SDL2/include",
-                "-LC:/Program Files/mingw64/modules/SDL2/lib",
+                "-IC:/Program Files/mingw-w64/modules/SDL2/include",
+                "-LC:/Program Files/mingw-w64/modules/SDL2/lib",
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2"
