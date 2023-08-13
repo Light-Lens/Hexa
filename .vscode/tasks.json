@@ -10,9 +10,9 @@
                 "engine\\src\\*.cpp",
                 "-o",
                 "build\\main.exe",
-                "-Iinclude",
-                "-Iengine/modules/SDL2/include",
-                "-Lengine/modules/SDL2/lib",
+                "-Iengine\\includes",
+                "-Iengine\\modules\\SDL2\\include",
+                "-Lengine\\modules\\SDL2\\lib",
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2"
