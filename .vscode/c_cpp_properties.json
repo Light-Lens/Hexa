@@ -4,8 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\Program Files\\mingw-w64\\modules\\SDL2\\include",
-                "include"
+                "engine\\modules\\SDL2\\include",
+                "engine\\includes"
             ],
             "defines": [
                 "_DEBUG",
