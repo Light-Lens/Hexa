@@ -1,7 +1,7 @@
 #include "Application.h"
 
-namespace Hexa {
-
+namespace Hexa
+{
 	Application::Application()
 	{
 	}
@@ -15,5 +15,4 @@ namespace Hexa {
 	{
 		while (true);
 	}
-
 }

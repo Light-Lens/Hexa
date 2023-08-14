@@ -4,7 +4,6 @@
 
 namespace Hexa
 {
-
 	class Hexa_API Application
 	{
 	public:
@@ -16,5 +15,4 @@ namespace Hexa
 
 	// To be defined in CLIENT
 	Application* CreateApplication();
-
 }
