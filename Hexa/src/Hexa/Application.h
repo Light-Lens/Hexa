@@ -13,6 +13,5 @@ namespace Hexa
 	};
 
 	// To be defined in CLIENT
-	// Application* CreateApplication();
-
+	Application* CreateApplication();
 }

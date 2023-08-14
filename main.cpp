@@ -12,10 +12,7 @@ public:
     }
 };
 
-int main(int argc, char const *argv[])
+Hexa::Application* Hexa::CreateApplication()
 {
-    Sandbox* sandbox = new Sandbox();
-    sandbox->Run();
-    delete sandbox;
-    return 0;
+    return new Sandbox();
 }
