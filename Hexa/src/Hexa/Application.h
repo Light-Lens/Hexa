@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Core.h"
+
 namespace Hexa
 {
 
-	class Application
+	class Hexa_API Application
 	{
 	public:
 		Application();
@@ -14,4 +16,5 @@ namespace Hexa
 
 	// To be defined in CLIENT
 	Application* CreateApplication();
+
 }

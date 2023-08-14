@@ -1,7 +1,6 @@
 #include "Application.h"
 
-namespace Hexa
-{
+namespace Hexa {
 
 	Application::Application()
 	{

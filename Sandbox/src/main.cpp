@@ -3,16 +3,19 @@
 class Sandbox : public Hexa::Application
 {
 public:
-    Sandbox()
-    {
-    }
+	Sandbox()
+	{
 
-    ~Sandbox()
-    {
-    }
+	}
+
+	~Sandbox()
+	{
+
+	}
+
 };
 
 Hexa::Application* Hexa::CreateApplication()
 {
-    return new Sandbox();
+	return new Sandbox();
 }
