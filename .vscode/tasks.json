@@ -11,8 +11,7 @@
                 "Hexa\\src\\Hexa\\*.cpp",
                 "-o",
                 "bin\\main.exe",
-                "-IHexa\\src",
-                // "-mwindows"
+                "-IHexa\\src"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
