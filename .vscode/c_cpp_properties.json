@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}\\**",
-                "engine\\modules\\SDL2\\include",
-                "engine\\includes"
+                "Hexa"
             ],
             "defines": [
                 "_DEBUG",
@@ -17,7 +16,7 @@
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64",
             "compilerArgs": [
-                "engine/includes"
+                "Hexa"
             ]
         }
     ],

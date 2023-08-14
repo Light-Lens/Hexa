@@ -8,15 +8,10 @@
             "args": [
                 "-g",
                 "main.cpp",
-                "engine\\src\\*.cpp",
+                "Hexa\\src\\Hexa\\*.cpp",
                 "-o",
-                "build\\main.exe",
-                "-Iengine\\includes",
-                "-Iengine\\modules\\SDL2\\include",
-                "-Lengine\\modules\\SDL2\\lib",
-                "-lmingw32",
-                "-lSDL2main",
-                "-lSDL2"
+                "bin\\main.exe",
+                "-IHexa\\src",
                 // "-mwindows"
             ],
             "options": {
