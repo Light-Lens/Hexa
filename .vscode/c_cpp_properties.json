@@ -5,7 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "Hexa/src",
-                "Hexa/vendor/spdlog/include",
+                "Hexa/vendor/spdlog/include"
             ],
             "defines": [
                 "_DEBUG",
