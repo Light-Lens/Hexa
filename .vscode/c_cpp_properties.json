@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "x64",
             "includePath": [
                 "${workspaceFolder}/**",
                 "Hexa/src"
@@ -13,10 +13,10 @@
                 "HX_PLATFORM_WINDOWS",
                 "Hexa_API"
             ],
-            "compilerPath": "C:\\Program Files\\mingw-w64\\bin\\gcc.exe",
+            "compilerPath": "C:\\Program Files\\mingw-w64\\bin\\g++.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "windows-gcc-x86"
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
