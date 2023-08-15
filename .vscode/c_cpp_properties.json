@@ -4,7 +4,8 @@
             "name": "x64",
             "includePath": [
                 "${workspaceFolder}/**",
-                "Hexa/src"
+                "Hexa/src",
+                "Hexa/vendor/spdlog/include",
             ],
             "defines": [
                 "_DEBUG",
