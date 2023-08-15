@@ -1,3 +1,4 @@
+#include "hxpch.h"
 #include "Application.h"
 
 #include "Hexa/Events/ApplicationEvent.h"

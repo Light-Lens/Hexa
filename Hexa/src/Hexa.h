@@ -2,7 +2,6 @@
 
 // For use by Hexa applications
 
-#include <iostream>
 #include "Hexa/Application.h"
 #include "Hexa/Log.h"
 

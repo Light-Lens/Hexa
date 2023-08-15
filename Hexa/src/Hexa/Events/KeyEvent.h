@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Hexa
 {
 	class Hexa_API KeyEvent : public Event

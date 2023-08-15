@@ -2,9 +2,6 @@
 
 #include "Hexa/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace Hexa
 {
 	// Events in Hexa are currently blocking, meaning when an event occurs it
