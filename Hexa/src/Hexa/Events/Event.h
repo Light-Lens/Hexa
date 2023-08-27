@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/hxpch.h"
+#include "hxpch.h"
 #include "Hexa/Core.h"
 
 namespace Hexa
