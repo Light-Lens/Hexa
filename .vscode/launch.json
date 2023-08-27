@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "run",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Sandbox.exe",
+            "cwd": "${workspaceFolder}",
+            "externalConsole": true,
+            "preLaunchTask": "build"
+        }
+    ]
+}
