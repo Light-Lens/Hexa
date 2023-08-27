@@ -28,7 +28,6 @@ g++ -shared "Hexa/src/Hexa/*.cpp" ^
 -L"Hexa/vendor/SDL2/lib" ^
 -lmingw32 -lSDL2main -lSDL2 ^
 -DHX_PLATFORM_WINDOWS -DHX_BUILD_DLL
-
 echo Hexa DLL built successfully!
 
 g++ "Sandbox/src/SandboxApp.cpp" ^
@@ -38,5 +37,7 @@ g++ "Sandbox/src/SandboxApp.cpp" ^
 -L"bin" ^
 -lHexa -Wl,-rpath, ^
 -DHX_PLATFORM_WINDOWS -DHX_BUILD_DLL
-
 echo SandboxApp built successfully!
+
+copy Hexa\vendor\SDL2\bin\SDL2.dll bin\SDL2.dll /y
+echo SDL2.dll copied successfully!
